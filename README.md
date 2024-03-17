@@ -12,7 +12,7 @@ MICS makes the thief pay the wallet owner for the owner's poor security, and pay
 
 MICS lets the owner indefinitely delay theft attempts, while preparing to withdraw all the cryptocurrency.
 
-
+<br/>
 
 ## INTRODUCTION
 
@@ -36,7 +36,7 @@ In some use-cases, MICS provides more practical security than multisig.
 
 To make MICS usable by the public at large, a UI wizard should use strict question-answer steps to guide the user to create a vault which is specifically configured for the user's context, like: single user with / without inheritor, family with shared ownership of cryptocurrency and with / without children, company with multiple people who can withdraw cryptocurrency and have to be tracked independently.
 
-
+<br/>
 
 ## INVERTING SECURITY ASYMMETRY
 
@@ -80,7 +80,7 @@ If the value of the cryptocurrency rises in time, the claim cost also rises (rel
 
 This completes the inversion of the asymmetry of the effort required to maintain security versus the effort required to break security.
 
-
+<br/>
 
 ## MONITORING PENDING REQUESTS
 
@@ -90,7 +90,7 @@ The owner can use a third-party monitoring service which notifies subscribers if
 
 A third-party monitoring service can be compromised, so the owners can use multiple monitoring services, or can monitor the blockchain directly.
 
-
+<br/>
 
 ## VAULTS
 
@@ -128,13 +128,13 @@ When the vault is created, it can be configured with the following data:
 
 For security reasons, the vault configuration must never change. If the configuration has to be changed, a new vault has to be created and the cryptocurrency has to be transferred from the old vault to the new vault.
 
-
+<br/>
 
 ## REQUEST SUMMARY
 
 The smart contract exposes endpoints which accept the following requests: create vault, read vault configuration, deposit, withdraw, cancel withdraw, read pending withdraws, claim, read pending claims.
 
-
+<br/>
 
 ## ADMINISTRATIVE REQUESTS
 
@@ -152,7 +152,7 @@ If it's not certain whether the device is secure, or to maximize security, other
 
 Important note: MICS protects a vault, but can't protect a user's perception from being subverted by a thief. For example, a thief could compromise the device of a user to such an extent that the user would see some data on the screen, but the device would send different data to the smart contract, which could mean that the vault itself could be configured with the thief's keys. This means that the user could believe that in the future he would be able to sign claim requests for his witness key, but in reality the vault would use a different witness key (which is known only to the thief). This is why it's necessary for at least one of the used devices to be secure.
 
-
+<br/>
 
 ## WITHDRAW REQUESTS
 
@@ -166,7 +166,7 @@ A pending request is executed with a delay from the time when it was stored. The
 
 Pending withdraw requests may not be executed if there is any pending claim request; claim requests have a higher priority.
 
-
+<br/>
 
 ## CANCEL WITHDRAW REQUESTS
 
@@ -182,7 +182,7 @@ So, while the thief can't actually steal the cryptocurrency, the owner can't use
 
 This impasse can be solved with claim requests.
 
-
+<br/>
 
 ## CLAIM REQUESTS
 
@@ -222,7 +222,7 @@ If a thief were to get access to both the owner and the witness private keys, an
 
 This works because each claim request signed by the owner and the thief, indefinitely overriding each other's claim requests, gets a store time (call it T) newer than the overridden claim request, so T gets higher and higher. In the meantime, the claim request signed by the inheritor or the custodian remains pending with the same store time (call it V), and at some point V will come before T and the inheritor's / custodian's claim request will be executed.
 
-
+<br/>
 
 ## CLAIM COST DISTRIBUTION
 
@@ -240,7 +240,7 @@ The smart contract stores a claim request only if an amount of cryptocurrency eq
 
 * **Split in half**. One half of the cryptocurrency should be distributed in one of the above ways, the other half should be distributed in another way. If half of the cryptocurrency is deposited in the vault, and half isn't, the entity whose claim request is executed, be it the owner or the thief, will also get half of the claim cost paid by other entity, so (on average) the entity whose claim request is executed doesn't lose money.
 
-
+<br/>
 
 ## VAULT CASCADES
 
@@ -252,7 +252,7 @@ So long as any single vault from the cascade is not compromised, the cryptocurre
 
 If the entire cascade of vaults is compromised, the cryptocurrency will not be accessible by the owner, and the only thing left to do is to stop the thief from signing claim requests. If the last resort custodian protects the world's cryptocurrency reserves and is somehow compromised, there will be nowhere for the thief to hide, and the only thing the thief could do in the meantime is to delay the ability of the last resort custodian to access the cryptocurrency.
 
-
+<br/>
 
 ## INHERITANCE
 
@@ -270,7 +270,7 @@ If the witness private key is known to both spouses, they can override each othe
 
 The spender keys can be the owner keys of (the vaults of) the children of the family. In the case of death of both spouses, the children could sign withdraw requests for the spender keys, for mutually agreed amounts of cryptocurrency. If the children don't agree on the amount, they can indefinitely cancel each other's withdraw requests until the inheritor or custodian intervenes with a claim request.
 
-
+<br/>
 
 ## REPLACING MULTISIG
 
@@ -284,7 +284,7 @@ Any one member of the group can sign a withdraw request, but can also cancel any
 
 So long as the identities of all the members of the group are know to the group, it should be possible to track down the rogue member. Still, the rogue member could make the private keys public, in which case anyone in the world could make withdraw and claim requests, which means that the group will have to cancel / override them indefinitely, or sign a claim request with the inheritor or custodian key.
 
-
+<br/>
 
 ## REMAINING RISKS
 
@@ -296,7 +296,7 @@ If a thief were to get access to both the owner and the witness private keys, an
 
 The custodian's claim requests have the lowest priority in order to mitigate the possibility that the custodian would collude with the government to steal the cryptocurrency based on an unjust or corrupt bureaucratic decision instead of a court order. However, if the owner or the inheritor were unable to sign a claim request (to withdraw the cryptocurrency) before the claim request of the custodian is executed (actually with the owner time delay before execution), the owner / inheritor would lose the cryptocurrency. This is why the custodian time delay must be very high.
 
-
+<br/>
 
 ## RECOMMENDATIONS
 
@@ -304,9 +304,9 @@ The owner private key should not be stored with a custodian.
 
 When a private key is stored with a custodian, especially the witness private key, it should be stored with multiple custodians. This way, if any custodian blocks the access to the private key, the key may be accessible from another custodian.
 
+<br/>
 
-
-## Author
+## AUTHOR
 
 The MICS protocol was designed by voidsculptor.art, timestamped (with DigiStamp) and published at 2024.03.19. The protocol is released in the public domain.
 
