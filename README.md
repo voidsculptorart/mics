@@ -308,8 +308,8 @@ When a private key is stored with a custodian, especially the witness private ke
 
 ## AUTHOR
 
-The MICS protocol was designed by voidsculptor.art, timestamped (with DigiStamp) and published at 2024.03.19. The protocol is released in the public domain.
+The MICS protocol was designed by [voidsculptor.art](https://voidsculptor.art), timestamped (with DigiStamp) and published at 2024.03.19. The protocol is released in the public domain.
 
-For long-term public comments, MICS can be found on GitHub.
+For long-term public comments, MICS can be found on [GitHub](https://github.com/voidsculptorart/mics/).
 
 ***
