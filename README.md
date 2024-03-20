@@ -206,7 +206,7 @@ The rules of the claim requests are the secret sauce of MICS because they allow 
 
 * **Custodian slot**: A request may be stored in this slot without restrictions. The request stored in this slot is executed with the custodian time delay from the moment it was stored. Since the execution time delay is much higher than that of a request stored in the owner, witness and inheritor slots, a rogue custodian can't steal the cryptocurrency without the owner noticing and withdrawing the cryptocurrency before the custodian's request is executed.
 
-While claim requests can be overridden, they can't be canceled.
+Claim requests can be overridden, but there is no specific request to cancel them. If desired, it's safe to cancel a claim request which was signed for the same key as the cancel claim request.
 
 The owner and the witness slot rules are designed so that if the owner and the witness private keys are compromised, a thief wouldn't be able to steal the cryptocurrency.
 
