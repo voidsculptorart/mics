@@ -134,6 +134,8 @@ For security reasons, the vault configuration must never change. If the configur
 
 The smart contract exposes endpoints which accept the following requests: create vault, read vault configuration, deposit, withdraw, cancel withdraw, read pending withdraws, claim, read pending claims.
 
+MICS requires a smart contract which can execute some actions (= the pending requests) automatically. If this isn't possible, the execution of a pending request could be triggered manually with another request (which is sent to the smart contract once the time delay passes for the pending request).
+
 <br/>
 
 ## ADMINISTRATIVE REQUESTS
@@ -206,7 +208,7 @@ The rules of the claim requests are the secret sauce of MICS because they allow 
 
 * **Custodian slot**: A request may be stored in this slot without restrictions. The request stored in this slot is executed with the custodian time delay from the moment it was stored. Since the execution time delay is much higher than that of a request stored in the owner, witness and inheritor slots, a rogue custodian can't steal the cryptocurrency without the owner noticing and withdrawing the cryptocurrency before the custodian's request is executed.
 
-Claim requests can be overridden, but there is no specific request to cancel them. If desired, it's safe to cancel a claim request which was signed for the same key as the cancel claim request.
+Claim requests can be overridden, but there is no specific request to cancel them. If desired, it's safe to cancel a claim request which was signed for the same key as the cancel claim request; this can be done with another claim request whose destination address is that of the (sender) vault.
 
 The owner and the witness slot rules are designed so that if the owner and the witness private keys are compromised, a thief wouldn't be able to steal the cryptocurrency.
 
@@ -230,7 +232,7 @@ The smart contract stores a claim request only if an amount of cryptocurrency eq
 
 * **Deposited in the vault** (default behavior). The cryptocurrency is deposited in the vault and is transferred with the rest of the cryptocurrency. The entity whose claim request is executed, be it the owner or the thief, will also get the claim cost paid by other entity. The other entity will always lose money.
 
-* **Burnt**. Both entities which pay the claim cost will lose money, no matter whose claim request is executed.
+* **Burnt**. Both entities which pay the claim cost will lose money, no matter whose claim request is executed. At some point, the loss incurred from the total paid claim costs will dwarf the cryptocurrency from the vault.
 
 * **Dropped to all the vaults** (from the blockchain). The claim cost which is dropped to a vault is proportional with the amount of cryptocurrency stored by the vault, only the amount of the claim cost token.
 
