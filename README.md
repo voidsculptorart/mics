@@ -38,6 +38,14 @@ To make MICS usable by the public at large, a UI wizard should use strict questi
 
 <br/>
 
+### BLOCKCHAIN REQUIREMENT
+
+MICS requires a blockchain with a smart contract which can execute certain actions (= the pending requests) with a delay, preferably automatically. This means that the blockchain may have to support executing these actions only if the ledger already contains a paired record which has a certain age.
+
+If actions can't be executed automatically, the execution of a pending request can be triggered manually, with another request which is sent to the smart contract once the time delay passes for the pending request.
+
+<br/>
+
 ## INVERTING SECURITY ASYMMETRY
 
 The MICS protocol makes it extremely difficult for a thief to steal cryptocurrency (including NFTs) from a wallet. MICS works by inverting the asymmetry of the effort required to maintain security versus the effort required to break security.
@@ -133,8 +141,6 @@ For security reasons, the vault configuration must never change. If the configur
 ## REQUEST SUMMARY
 
 The smart contract exposes endpoints which accept the following requests: create vault, read vault configuration, deposit, withdraw, cancel withdraw, read pending withdraws, claim, read pending claims.
-
-MICS requires a smart contract which can execute some actions (= the pending requests) automatically. If this isn't possible, the execution of a pending request could be triggered manually with another request (which is sent to the smart contract once the time delay passes for the pending request).
 
 <br/>
 
