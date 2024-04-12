@@ -40,9 +40,9 @@ To make MICS usable by the public at large, a UI wizard should use strict questi
 
 ### BLOCKCHAIN REQUIREMENT
 
-MICS requires a blockchain with a smart contract which can execute certain actions (= the pending requests) with a delay, preferably automatically. This means that the blockchain may have to support executing these actions only if the ledger already contains a paired record which has a certain age. The first record constitutes the intent, while the second constitutes the confirmation.
+MICS requires a blockchain which may execute certain actions (like a transfer of cryptocurrency) only under certain conditions, even if the private key of the source address is publicly known. The conditions can be answered (true or false) by a smart contract which is linked to the source address, and constrain the execution of all the actions which are executed in the name of the source address.
 
-If actions can't be executed automatically, the execution of a pending request can be triggered manually, with another request which is sent to the smart contract once the time delay passes for the pending request.
+The smart contract may allow the execution of certain actions only if the smart contract state contains a specific record which is called intent, record which has a certain age. The execution of an intent can be triggered with a record which is called confirmation, record which is sent to the smart contract after a configured time delay passes.
 
 <br/>
 
