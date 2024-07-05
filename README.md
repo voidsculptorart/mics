@@ -40,7 +40,7 @@ To make MICS usable by the public at large, a UI wizard should use strict questi
 
 ### BLOCKCHAIN REQUIREMENT
 
-MICS requires a blockchain which may execute certain actions (like a transfer of cryptocurrency) only under certain conditions, even if the private key of the source address is publicly known. The conditions can be answered (true or false) by a smart contract which is linked to the source address, and constrain the execution of all the actions which are executed in the name of the source address.
+MICS requires a blockchain which may execute certain actions (like a spend of cryptocurrency) only under certain conditions, even if the private key of the source address is publicly known. The conditions can be answered (true or false) by a smart contract which is linked to the source address, and constrain the execution of all the actions which are executed in the name of the source address.
 
 The smart contract may allow the execution of certain actions only if the smart contract state contains a specific record which is called intent, record which has a certain age. The execution of an intent can be triggered with a record which is called confirmation, record which is sent to the smart contract after a configured time delay passes.
 
@@ -66,7 +66,7 @@ The thief has to organize a mass-theft operation, to try to steal a lot of crypt
 
 Interacting with a smart contract usually costs gas, and this means that the thief has to spend gas for every withdraw and claim request made. While it's true that the owner has to do the same in order to override the requests of the thief, the thief has to do that for the entire mass-theft operation.
 
-The claim cost (from the vault configuration) makes the upfront costs higher. The smart contract stores a claim request only if an amount of cryptocurrency equal with the claim cost is paid to the smart contract. This cryptocurrency is deposited in the vault and is transferred with the rest of the cryptocurrency. The entity which is able to withdraw the cryptocurrency from the vault also gets the claim cost paid by other entity.
+The claim cost (from the vault configuration) makes the upfront costs higher. The smart contract stores a claim request only if an amount of cryptocurrency equal with the claim cost is paid to the smart contract. This cryptocurrency is deposited in the vault and may be spent with the rest of the cryptocurrency. The entity which is able to withdraw the cryptocurrency from the vault also gets the claim cost paid by other entity.
 
 The claim cost makes the upfront cost of trying to steal cryptocurrency much higher than the cost of securing cryptocurrency by making the thief waste money at every theft attempt of the mass-theft operation (whereas the owner wastes money only for one vault).
 
@@ -108,11 +108,11 @@ When the vault is created, it can be configured with the following data:
 
 * **Vault name**: The name of the vault. This isn't unique within a blockchain. This is public information, so it shouldn't contain private information. The smart contract accepts a deposit in the vault only if the request includes the vault name. If this behavior isn't directly possible, the smart contract can implement an extra endpoint to check whether the vault name is correct, check which has to be made before a deposit is made. The purpose of the vault name is to avoid mistaken deposits from vault to vault.
 
+* **Base token**: The ID of the base token / cryptocurrency that can be used by the smart contract for fees / costs. In theory, the smart contract may also store other tokens, like NFTs.
+
 * **Maximum pending requests**: The maximum number of pending withdraw requests. A practical default value would be 20.
 
-* **Claim cost token ID**: The token ID of the cryptocurrency which has to be paid as claim cost, that is, has to be paid to the smart contract in order to store a claim request.
-
-* **Claim cost**: Amount of cryptocurrency which has to be paid to the smart contract in order to store a claim request. This cryptocurrency is deposited in the vault and is transferred with the rest of the cryptocurrency. A practical value would be the owner's income for 1 productive / working hour. A percentage (from the stored cryptocurrency) doesn't work here if the vault contains mostly tokens other than the claim cost token ID (like NFTs), since the distribution of the value of the tokens, relative to each other, isn't known to the smart contract.
+* **Claim cost**: Amount of cryptocurrency which has to be paid to the smart contract in order to store a claim request. This cryptocurrency is deposited in the vault and is spent with the rest of the cryptocurrency. A practical value would be the owner's income for 1 productive / working hour. A percentage (from the stored cryptocurrency) doesn't work here if the vault contains mostly tokens other than the base token, like NFTs, since the distribution of the value of the tokens, relative to each other, isn't known to the smart contract.
 
 * **Claim cost raise**: A percentage with which the claim cost rises after every claim request is stored by the smart contract, increase relative to the previous claim cost. This makes stealing the cryptocurrency more and more expensive with every claim request, and a mass-theft operation becomes exponentially more expensive. Care should be taken when configuring this percentage since the claim cost also increases for the owner.
 
@@ -122,19 +122,21 @@ When the vault is created, it can be configured with the following data:
 
 * **Spender keys**: A list of public keys; may miss. The number of keys must be strictly smaller than the maximum pending requests; one spot is intended for the owner. The associated spender private keys should be under the control of the employees of a company, or of the members of a family, and should be stored separately from the owner private key in order to reduce the probability that the private keys would be compromised together. Only withdraw and cancel withdraw requests may be signed for this key.
 
-* **Witness key**: A public key; may miss. The associated private key should be under the control of the owner, and should be stored separately from the owner private key in order to reduce the probability that the private keys would be compromised together. The witness private key can be stored by several custodians which are semi-trusted. Only claim requests may be signed for this key, requests which (upon a time-delayed execution) would transfer all the cryptocurrency from the vault to the address requested by the witness.
+* **Witness key**: A public key; may miss. The associated private key should be under the control of the owner, and should be stored separately from the owner private key in order to reduce the probability that the private keys would be compromised together. The witness private key can be stored by several custodians which are semi-trusted. Only claim requests may be signed for this key, requests which (upon a time-delayed execution) would spend all the cryptocurrency from the vault to the address requested by the witness.
 
 * **Owner time delay**: The time delay (in days) after which withdraw and claim requests signed for the owner or witness key are executed, delay starting from the moment the requests are stored by the smart contract. This allows the owner to take measures to safeguard the cryptocurrency, if a request is unauthorized. This must be at least 2 days. A practical default value would be 30 days.
 
-* **Inheritor key**: A public key; may miss. The associated private key should be under the control of an inheritor of the owner. The inheritor private key can be stored by several custodians which are semi-trusted. Only claim requests may be signed for this key, requests which (upon a time-delayed execution) would transfer all the cryptocurrency from the vault to the address requested by the inheritor.
+* **Inheritor key**: A public key; may miss. The associated private key should be under the control of an inheritor of the owner. The inheritor private key can be stored by several custodians which are semi-trusted. Only claim requests may be signed for this key, requests which (upon a time-delayed execution) would spend all the cryptocurrency from the vault to the address requested by the inheritor.
 
 * **Inheritor time delay**: The time delay (in days) after which claim requests signed for the inheritor key are executed, delay starting from the moment the requests are stored by the smart contract. This must be higher than twice the owner time delay. This must be at least 30 days. A practical default value would be 360 days.
 
-* **Custodian key**: A public key; may miss. The associated private key should be under the control of a custodian which acts on the behalf of the owner. The custodian should be an independent arbiter, and its private key should not be known to the owner. Only claim requests may be signed for this key, requests which (upon a time-delayed execution) would transfer all the cryptocurrency from the vault to the address requested by the custodian.
+* **Custodian key**: A public key; may miss. The associated private key should be under the control of a custodian which acts on the behalf of the owner. The custodian should be an independent arbiter, and its private key should not be known to the owner. Only claim requests may be signed for this key, requests which (upon a time-delayed execution) would spend all the cryptocurrency from the vault to the address requested by the custodian.
 
 * **Custodian time delay**: The time delay (in days) after which claim requests signed for the custodian key are executed, delay starting from the moment the requests are stored by the smart contract. This must be higher than the owner time delay plus the inheritor time delay. This must be at least 60 days. A practical default value would be 400 days.
 
-For security reasons, the vault configuration must never change. If the configuration has to be changed, a new vault has to be created and the cryptocurrency has to be transferred from the old vault to the new vault.
+* **Whitelist**: A list of addresses which may be the recipient addresses in withdraw requests; may miss. If this is missing, any address may be used as recipient addresses in withdraw requests. The whitelisted addresses ensure that withdraw requests can't spend cryptocurrency to wrong addresses (in hacking attempts). The whitelist isn't used for claim requests.
+
+For security reasons, the vault configuration must never change. If the configuration has to be changed, a new vault has to be created and the cryptocurrency has to be spent from the old vault to the new vault.
 
 <br/>
 
@@ -150,7 +152,7 @@ The following administrative requests are available:
 
 * **Create vault**: Creates a vault with its configuration.
 
-* **Read vault configuration**. Reads the vault configuration.
+* **Read vault configuration**: Reads the vault configuration.
 
 These requests must be signed for the owner key in order to be processed by the smart contract.
 
@@ -168,9 +170,9 @@ The vault stores a queue with pending withdraw requests. The maximum number of r
 
 A withdraw request may be stored by the smart contract in the queue only if it's signed for the owner key or for a spender key. Once the queue is full, no further request may be stored.
 
-A withdraw request contains a destination address where the cryptocurrency has to be transferred when the request is executed.
+A withdraw request contains a destination address where the cryptocurrency has to be spent when the request is executed.
 
-A pending request is executed with a delay from the time when it was stored. The delay is the owner time delay. This means that the smart contract transfers the requested cryptocurrency amount to the requested destination address only after the owner time delay passes since the request was stored.
+A pending request is executed with a delay from the time when it was stored. The delay is the owner time delay. This means that the smart contract spends the requested cryptocurrency amount to the requested destination address only after the owner time delay passes since the request was stored.
 
 Pending withdraw requests may not be executed if there is any pending claim request; claim requests have a higher priority.
 
@@ -194,11 +196,11 @@ This impasse can be solved with claim requests.
 
 ## CLAIM REQUESTS
 
-Claim requests can transfer all the cryptocurrency from the vault to another address, when the owner private key was compromised and a thief is actively trying to use the owner private key to withdraw cryptocurrency from the vault.
+Claim requests can spend all the cryptocurrency from the vault to another address, when the owner private key was compromised and a thief is actively trying to use the owner private key to withdraw cryptocurrency from the vault.
 
-A claim request contains a destination address where all the cryptocurrency from the vault has to be transferred when the request is executed.
+A claim request contains a destination address where all the cryptocurrency from the vault has to be spent when the request is executed.
 
-A claim request is executed with a delay from the time when it was stored by the smart contract, which means that the cryptocurrency is transferred to the requested destination address only after the appropriate time delay passes since the request was stored.
+A claim request is executed with a delay from the time when it was stored by the smart contract, which means that the cryptocurrency is spent to the requested destination address only after the appropriate time delay passes since the request was stored.
 
 The smart contract has 1 slot for each public key with which it can be configured: owner, witness, inheritor, custodian. When the smart contract receives a claim request, it verifies its signature and it stores the request in the slot which is associated to the public key for which the request was signed, within certain rules, possibly overriding the existing request, and later (with a time delay) executes the request within certain rules. A request which is stored in a slot is known as a pending claim request.
 
@@ -236,17 +238,17 @@ This works because each claim request signed by the owner and the thief, indefin
 
 The smart contract stores a claim request only if an amount of cryptocurrency equal with the claim cost is paid to the smart contract. This cryptocurrency can be distributed in one of the following ways:
 
-* **Deposited in the vault** (default behavior). The cryptocurrency is deposited in the vault and is transferred with the rest of the cryptocurrency. The entity whose claim request is executed, be it the owner or the thief, will also get the claim cost paid by other entity. The other entity will always lose money.
+* **Deposited in the vault** (default behavior): The cryptocurrency is deposited in the vault and is spent with the rest of the cryptocurrency. The entity whose claim request is executed, be it the owner or the thief, will also get the claim cost paid by other entity. The other entity will always lose money.
 
-* **Burnt**. Both entities which pay the claim cost will lose money, no matter whose claim request is executed. At some point, the loss incurred from the total paid claim costs will dwarf the cryptocurrency from the vault.
+* **Burnt**: Both entities which pay the claim cost will lose money, no matter whose claim request is executed. At some point, the loss incurred from the total paid claim costs will dwarf the cryptocurrency from the vault.
 
-* **Dropped to all the vaults** (from the blockchain). The claim cost which is dropped to a vault is proportional with the amount of cryptocurrency stored by the vault, only the amount of the claim cost token.
+* **Dropped to all the vaults** (from the blockchain): The claim cost which is dropped to a vault is proportional with the amount of cryptocurrency stored by the vault (only stored in the base token).
 
-* **Dropped to all the stakers** (from the blockchain). The claim cost which is dropped to a staker is proportional with the amount of cryptocurrency staked by the staker.
+* **Dropped to all the stakers** (from the blockchain): The claim cost which is dropped to a staker is proportional with the amount of cryptocurrency staked by the staker.
 
-* **Transferred to the developer** of the smart contract. This is a conflict of interests, so it should never be implemented.
+* **Transferred to the developer** of the smart contract: This is a conflict of interests, so it should never be implemented.
 
-* **Split in half**. One half of the cryptocurrency should be distributed in one of the above ways, the other half should be distributed in another way. If half of the cryptocurrency is deposited in the vault, and half isn't, the entity whose claim request is executed, be it the owner or the thief, will also get half of the claim cost paid by other entity, so (on average) the entity whose claim request is executed doesn't lose money.
+* **Split in half**: One half of the cryptocurrency should be distributed in one of the above ways, the other half should be distributed in another way. If half of the cryptocurrency is deposited in the vault, and half isn't, the entity whose claim request is executed, be it the owner or the thief, will also get half of the claim cost paid by other entity, so (on average) the entity whose claim request is executed doesn't lose money.
 
 <br/>
 
@@ -256,7 +258,7 @@ Entities which are at a high risk of being compromised (perhaps because they pro
 
 The last vault from the cascade, which has no configured inheritor and custodian keys, is called last resort custodian. This custodian acts as a last resort catch-all, identity based, centralized entity, and can afford to use the ultimate level of physical security (like signing claim requests only offline).
 
-So long as any single vault from the cascade is not compromised, the cryptocurrency which is transferred to it is safe because it stops in that vault and is accessible only to the owner.
+So long as any single vault from the cascade is not compromised, the cryptocurrency which is spent to it is safe because it stops in that vault and is accessible only to the owner.
 
 If the entire cascade of vaults is compromised, the cryptocurrency will not be accessible by the owner, and the only thing left to do is to stop the thief from signing claim requests. If the last resort custodian protects the world's cryptocurrency reserves and is somehow compromised, there will be nowhere for the thief to hide, and the only thing the thief could do in the meantime is to delay the ability of the last resort custodian to access the cryptocurrency.
 
