@@ -306,6 +306,8 @@ If a thief were to get access to both the owner and the witness private keys, an
 
 The custodian's claim requests have the lowest priority in order to mitigate the possibility that the custodian would collude with the government to steal the cryptocurrency based on an unjust or corrupt bureaucratic decision instead of a court order. However, if the owner or the inheritor were unable to sign a claim request (to withdraw the cryptocurrency) before the claim request of the custodian is executed (actually with the owner time delay before execution), the owner / inheritor would lose the cryptocurrency. This is why the custodian time delay must be very high.
 
+A thief (who has the owner private key) could make a claim request and then start a denial-of-service attack at the blockchain level, to block the owner's ability to override the thief's request, until the thief's request is executed. The success or failure of such an attack depends on the blockchain's ability to handle it, while charging the claim cost (or any other significant fee) for each request (be it valid or not).
+
 <br/>
 
 ## RECOMMENDATIONS
