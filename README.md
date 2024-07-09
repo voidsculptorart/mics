@@ -6,7 +6,7 @@ Massively Improving Cryptocurrency Storage Security
 
 ## SUMMARY
 
-The MICS protocol makes it extremely difficult for a thief to steal cryptocurrency (including NFTs) from a wallet. MICS works by inverting the asymmetry of the effort required to maintain security versus the effort required to break security.
+The MICS protocol makes it extremely difficult for a thief to steal cryptocurrency (including NFTs) from a wallet. MICS works by inverting the asymmetry of the effort required to maintain security versus the effort required to break security, so that a single secure point for intrusion maintains full security, even when all other points are compromised.
 
 MICS makes the thief pay the wallet owner for the owner's poor security, and pay the owner to eventually withdraw and secure the cryptocurrency.
 
@@ -26,7 +26,7 @@ MICS works for cryptocurrencies, where there are no physical identities and no c
 
 Cryptocurrency storage security is a hard problem to solve because security is an asymmetric problem, that is, it's much easier to break security than to maintain security. Breaking security requires finding just one weak point for intrusion, whereas maintaining security requires removing all weak points.
 
-MICS works by inverting the asymmetry of the effort required to maintain security versus the effort required to break security. This is done by letting the owner indefinitely delay theft attempts, while preparing to withdraw all the cryptocurrency. This makes it extremely difficult to steal cryptocurrency when a private key is compromised.
+MICS works by inverting the asymmetry of the effort required to maintain security versus the effort required to break security, so that a single secure point for intrusion maintains full security, even when all other points are compromised. This is done by letting the owner indefinitely delay theft attempts, while preparing to withdraw all the cryptocurrency. This makes it extremely difficult to steal cryptocurrency when a private key is compromised.
 
 MICS works because it gives the owner of a vault a long time during which to detect unauthorized withdraws, and can indefinitely block a thief's access to the cryptocurrency. In the meantime, the owner has several options to withdraw all the cryptocurrency from the vault.
 
@@ -48,7 +48,7 @@ The smart contract may allow the execution of certain actions only if the smart 
 
 ## INVERTING SECURITY ASYMMETRY
 
-The MICS protocol makes it extremely difficult for a thief to steal cryptocurrency (including NFTs) from a wallet. MICS works by inverting the asymmetry of the effort required to maintain security versus the effort required to break security.
+The MICS protocol makes it extremely difficult for a thief to steal cryptocurrency (including NFTs) from a wallet. MICS works by inverting the asymmetry of the effort required to maintain security versus the effort required to break security, so that a single secure point for intrusion maintains full security, even when all other points are compromised.
 
 MICS makes the thief pay the wallet owner for the owner's poor security, and pay the owner to eventually withdraw and secure the cryptocurrency.
 
